@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sagrario & Beto · Renovación de Votos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #fff1f5, #fde2e4);
+      color: #4a2c2a;
+    }
+    header {
+      text-align: center;
+      padding: 90px 20px;
+      background: rgba(255,255,255,0.7);
+    }
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+    header p {
+      font-size: 1.4em;
+    }
+    section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 40px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      margin-bottom: 40px;
+    }
+    .card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      text-align: center;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #b5838d;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .menu {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .menu button {
+      background: none;
+      color: #4a2c2a;
+      font-size: 1.6em;
+      border: none;
+      cursor: pointer;
+      width: auto;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255,255,255,0.7);
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sagrario & Beto</h1>
+  <p>✨💎 Renovación de Votos · 15 años · Bodas de Cristal 💎✨</p>
+</header>
+
+<section>
+  <div class="card">
+    <h2>Nuestra Historia</h2>
+    <p style="text-align:center; font-size:1.2em;">
+      Nos llena de alegría invitarte a celebrar la renovación de nuestro amor y la unión de nuestras vidas en este día tan especial 💍✨
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Detalles del Evento</h2>
+    <div class="details">
+      <div>
+        <h3>📅 Fecha</h3>
+        <p>15 de agosto de 2026</p>
+      </div>
+      <div>
+        <h3>⏰ Hora</h3>
+        <p>Sin confirmar</p>
+      </div>
+      <div>
+        <h3>📍 Lugar</h3>
+        <p>Sin confirmar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 Confirmación de Asistencia</h2>
+    <form id="rsvpForm">
+      <input type="text" id="guestName" placeholder="Tu nombre" required />
+      <select id="attendance" required>
+        <option value="">¿Asistirás?</option>
+        <option value="Sí">✅ Sí asistiré</option>
+        <option value="No">❌ No asistiré</option>
+      </select>
+      <button type="submit">Confirmar asistencia</button>
+    </form>
+
+    <div class="menu">
+      <button onclick="clearRSVP()">⋯</button>
+    </div>
+
+    <div id="rsvpList"></div>
+  </div>
+</section>
+
+<audio src="cancion.mp4" autoplay loop></audio>
+
+<footer>
+  <p>Con todo nuestro cariño 💖</p>
+  <p>Sagrario & Beto</p>
+</footer>
+
+<script>
+  const form = document.getElementById('rsvpForm');
+  const listDiv = document.getElementById('rsvpList');
+
+  function loadRSVP() {
+    const data = JSON.parse(localStorage.getItem('rsvp') || '[]');
+    listDiv.innerHTML = '<h3>Confirmaciones</h3>';
+    if (data.length === 0) {
+      listDiv.innerHTML += '<p style="text-align:center;">Aún no hay confirmaciones</p>';
+    }
+    data.forEach(r => {
+      const p = document.createElement('p');
+      p.textContent = `💌 ${r.name} — ${r.attendance}`;
+      listDiv.appendChild(p);
+    });
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = JSON.parse(localStorage.getItem('rsvp') || '[]');
+    data.push({ name: guestName.value, attendance: attendance.value });
+    localStorage.setItem('rsvp', JSON.stringify(data));
+    form.reset();
+    loadRSVP();
+    alert('¡Gracias por confirmar! 💖');
+  });
+
+  function clearRSVP() {
+    const ok = confirm('¿Deseas borrar todas las confirmaciones?');
+    if (ok) {
+      localStorage.removeItem('rsvp');
+      loadRSVP();
+    }
+  }
+
+  loadRSVP();
+</script>
+
+</body>
+</html>
